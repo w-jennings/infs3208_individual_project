@@ -13,3 +13,5 @@ http://external_IP/explorer.html
 `docker exec <container_id> hdfs dfs -put /home/nbs/ratings.csv /ratings.csv`  
 `docker exec <container_id> hdfs dfs -put /home/nbs/tags.csv /tags.csv`  
 
+Naviagte to `http://external_ip:8888/tree/work/nbs/MovieLensAnalysis.ipynb` and run the notebook :)
+
