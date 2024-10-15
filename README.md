@@ -1,6 +1,9 @@
 ## infs3208_individual_project
 
 ### Steps to Run
+
+*Please run on a VM with at least 16GB of memory*
+
 To start all containers  
 `docker-compose up -d`  
   
