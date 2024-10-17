@@ -16,7 +16,6 @@ services:
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
     container_name: namenode
-    platform: linux/amd64  # Specify platform for Mac M3
     networks:
       - spark-net
     ports:
@@ -33,7 +32,6 @@ services:
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
     container_name: resourcemanager
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
       - datanode1
@@ -49,7 +47,6 @@ services:
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
     container_name: historyserver
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
       - datanode1
@@ -65,7 +62,6 @@ services:
   nodemanager1:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
     container_name: nodemanager
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
       - datanode1
@@ -79,7 +75,6 @@ services:
   datanode1:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
     container_name: datanode1
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
     networks:
@@ -92,7 +87,6 @@ services:
   datanode2:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
     container_name: datanode2
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
     networks:
@@ -105,7 +99,6 @@ services:
   datanode3:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
     container_name: datanode3
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
     networks:
@@ -116,9 +109,8 @@ services:
       - ./hadoop.env
 
   spark-master:
-    image: bde2020/spark-master:3.0.0-hadoop3.2
+    image: bde2020/spark-master:3.0.1-hadoop3.2
     container_name: spark-master
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - namenode
     networks:
@@ -131,9 +123,8 @@ services:
       - NAMENODE_HOSTNAME=namenode
 
   spark-worker-1:
-    image: bde2020/spark-worker:3.0.0-hadoop3.2
+    image: bde2020/spark-worker:3.0.1-hadoop3.2
     container_name: spark-worker-1
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - spark-master
       - namenode
@@ -143,14 +134,13 @@ services:
       - "8081:8081"
     environment:
       - SPARK_MASTER=spark://spark-master:7077
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=512m
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
       - NAMENODE_HOSTNAME=namenode
 
   spark-worker-2:
-    image: bde2020/spark-worker:3.0.0-hadoop3.2
+    image: bde2020/spark-worker:3.0.1-hadoop3.2
     container_name: spark-worker-2
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - spark-master
       - namenode
@@ -160,14 +150,13 @@ services:
       - "8082:8082"
     environment:
       - SPARK_MASTER=spark://spark-master:7077
-      - SPARK_WORKER_CORES=1
-      - SPARK_WORKER_MEMORY=512m
+      - SPARK_WORKER_CORES=2
+      - SPARK_WORKER_MEMORY=2g
       - NAMENODE_HOSTNAME=namenode
 
   jupyter-notebook:
     container_name: jupyternb
     image: jupyter/all-spark-notebook:42f4c82a07ff
-    platform: linux/amd64  # Specify platform for Mac M3
     depends_on:
       - spark-master
     expose:
